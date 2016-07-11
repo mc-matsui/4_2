@@ -27,6 +27,10 @@ $kadai_search = htmlspecialchars($_POST["kadai_search"], ENT_QUOTES);
 $name = htmlspecialchars($_POST["name"], ENT_QUOTES);
 
 
+$result = mysql_query("SELECT * FROM `kadai_matsui_ziplist` WHERE $kadai_search LIKE '%$name%'");
+
+
+//var_dump($name);die;
 
 print  <<<EOM
 		<h2>■検索結果</h2>
@@ -53,7 +57,13 @@ print  <<<EOM
 EOM;
 
 
-$result = mysql_query("SELECT * FROM `kadai_matsui_ziplist` WHERE $kadai_search LIKE '%$name%'");
+//結果セットの行数を取得する
+$rows = mysql_num_rows($result);
+
+if ($rows) {
+
+
+
 while ($row = mysql_fetch_array($result)) {
 	//town_double_zip_code    (1=該当、0=該当せず)
 	if ($row['town_double_zip_code'] == 1) {
@@ -110,6 +120,8 @@ while ($row = mysql_fetch_array($result)) {
 		$row['update_reason'] = "廃止(廃止データのみ使用)";
 	}
 
+
+
 	print <<<EOM
 		<tr>
 			<td>{$row['public_group_code']}</td>
@@ -130,12 +142,19 @@ while ($row = mysql_fetch_array($result)) {
 		</tr>
 EOM;
 
+
+
+
 	//mb_convert_variables("UTF-8", "SJIS", $row[]);
 
 }
 
 print "</table>";
 
+}else{
+	print "</table>";
+	print "データがありません";
+}
 
 
 //全件表示
