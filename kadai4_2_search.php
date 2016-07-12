@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>● 課題4_2, レコードを検索するページを作成する(SELECT)</title>
+
+<style>
+	p.nodata {
+	    text-align: center;
+	}
+</style>
 </head>
 <body>
 
@@ -153,7 +159,7 @@ print "</table>";
 
 }else{
 	print "</table>";
-	print "データがありません";
+	print "<p class='nodata'>データがありません</p>";
 }
 
 
